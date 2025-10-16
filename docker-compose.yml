@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: commission-manager-mysql
+    restart: unless-stopped
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: commission_manager
+      MYSQL_USER: commission
+      MYSQL_PASSWORD: commission123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - commission-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: commission-manager-api
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+      - DB_TYPE=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=commission
+      - DB_PASSWORD=commission123
+      - DB_DATABASE=commission_manager
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - JWT_EXPIRATION=7d
+      - NODE_ENV=development
+    depends_on:
+      - mysql
+    networks:
+      - commission-network
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+
+volumes:
+  mysql_data:
+
+networks:
+  commission-network:
+    driver: bridge

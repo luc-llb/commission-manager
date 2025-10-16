@@ -1,0 +1,243 @@
+# Collection de Requests HTTP para testar a API
+# Pode ser usado com extensões REST Client do VS Code
+
+### Variables
+@baseUrl = http://localhost:3000/api/v1
+@token = seu-token-jwt-aqui
+
+### 1. AUTH - Register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "gerente01",
+  "password": "senha123",
+  "nome": "Carlos Gerente",
+  "email": "carlos.gerente@example.com",
+  "role": "admin"
+}
+
+### 2. AUTH - Login (Admin padrão)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+### 3. AUTH - Login (Usuário criado)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "gerente01",
+  "password": "senha123"
+}
+
+### 4. VENDEDORES - Criar
+POST {{baseUrl}}/vendedores
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao.silva@example.com",
+  "cpf": "12345678900",
+  "telefone": "11987654321",
+  "percentualComissao": 5
+}
+
+### 5. VENDEDORES - Criar outro
+POST {{baseUrl}}/vendedores
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Maria Santos",
+  "email": "maria.santos@example.com",
+  "cpf": "98765432100",
+  "telefone": "11999887766",
+  "percentualComissao": 7
+}
+
+### 6. VENDEDORES - Listar todos
+GET {{baseUrl}}/vendedores
+Authorization: Bearer {{token}}
+
+### 7. VENDEDORES - Listar apenas ativos
+GET {{baseUrl}}/vendedores?ativo=true
+Authorization: Bearer {{token}}
+
+### 8. VENDEDORES - Buscar por ID
+GET {{baseUrl}}/vendedores/ID_AQUI
+Authorization: Bearer {{token}}
+
+### 9. VENDEDORES - Atualizar
+PATCH {{baseUrl}}/vendedores/ID_AQUI
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "João Silva Santos",
+  "telefone": "11999998888"
+}
+
+### 10. VENDEDORES - Desativar
+DELETE {{baseUrl}}/vendedores/ID_AQUI
+Authorization: Bearer {{token}}
+
+### 11. PRODUTOS - Criar
+POST {{baseUrl}}/produtos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Notebook Dell Inspiron 15",
+  "descricao": "Notebook com processador Intel Core i7, 16GB RAM, SSD 512GB",
+  "preco": 3500.00,
+  "sku": "DELL-INSP-15-I7",
+  "estoque": 50,
+  "categoria": "Eletrônicos"
+}
+
+### 12. PRODUTOS - Criar outro
+POST {{baseUrl}}/produtos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Mouse Logitech MX Master 3",
+  "descricao": "Mouse ergonômico sem fio",
+  "preco": 450.00,
+  "sku": "LOGI-MX-MASTER-3",
+  "estoque": 100,
+  "categoria": "Periféricos"
+}
+
+### 13. PRODUTOS - Criar mais um
+POST {{baseUrl}}/produtos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Teclado Mecânico Keychron K2",
+  "descricao": "Teclado mecânico compacto 75%",
+  "preco": 650.00,
+  "sku": "KEYCHRON-K2-V2",
+  "estoque": 75,
+  "categoria": "Periféricos"
+}
+
+### 14. PRODUTOS - Listar todos
+GET {{baseUrl}}/produtos
+Authorization: Bearer {{token}}
+
+### 15. PRODUTOS - Filtrar por categoria
+GET {{baseUrl}}/produtos?categoria=Eletrônicos
+Authorization: Bearer {{token}}
+
+### 16. PRODUTOS - Buscar por texto
+GET {{baseUrl}}/produtos/buscar?q=notebook
+Authorization: Bearer {{token}}
+
+### 17. PRODUTOS - Buscar por ID
+GET {{baseUrl}}/produtos/ID_AQUI
+Authorization: Bearer {{token}}
+
+### 18. PRODUTOS - Atualizar
+PATCH {{baseUrl}}/produtos/ID_AQUI
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "preco": 3200.00,
+  "estoque": 45
+}
+
+### 19. VENDAS - Criar (substitua os IDs)
+POST {{baseUrl}}/vendas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "produtoId": "ID_DO_PRODUTO",
+  "vendedorId": "ID_DO_VENDEDOR",
+  "quantidade": 2,
+  "dataVenda": "2025-10-16T10:30:00.000Z",
+  "observacao": "Cliente pagou à vista"
+}
+
+### 20. VENDAS - Criar outra
+POST {{baseUrl}}/vendas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "produtoId": "ID_DO_PRODUTO",
+  "vendedorId": "ID_DO_VENDEDOR",
+  "quantidade": 1,
+  "dataVenda": "2025-10-16T14:00:00.000Z"
+}
+
+### 21. VENDAS - Listar todas
+GET {{baseUrl}}/vendas
+Authorization: Bearer {{token}}
+
+### 22. VENDAS - Filtrar por vendedor
+GET {{baseUrl}}/vendas?vendedorId=ID_DO_VENDEDOR
+Authorization: Bearer {{token}}
+
+### 23. VENDAS - Filtrar por período
+GET {{baseUrl}}/vendas?dataInicio=2025-10-01&dataFim=2025-10-31
+Authorization: Bearer {{token}}
+
+### 24. VENDAS - Buscar por ID
+GET {{baseUrl}}/vendas/ID_AQUI
+Authorization: Bearer {{token}}
+
+### 25. VENDAS - Atualizar
+PATCH {{baseUrl}}/vendas/ID_AQUI
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "quantidade": 3,
+  "observacao": "Quantidade ajustada"
+}
+
+### 26. VENDAS - Cancelar
+DELETE {{baseUrl}}/vendas/ID_AQUI
+Authorization: Bearer {{token}}
+
+### 27. RELATÓRIOS - Ranking de vendedores
+GET {{baseUrl}}/relatorios/ranking
+Authorization: Bearer {{token}}
+
+### 28. RELATÓRIOS - Ranking top 5
+GET {{baseUrl}}/relatorios/ranking?limite=5
+Authorization: Bearer {{token}}
+
+### 29. RELATÓRIOS - Ranking com período
+GET {{baseUrl}}/relatorios/ranking?dataInicio=2025-10-01&dataFim=2025-10-31
+Authorization: Bearer {{token}}
+
+### 30. RELATÓRIOS - Relatório mensal
+GET {{baseUrl}}/relatorios/mensal?mes=10&ano=2025
+Authorization: Bearer {{token}}
+
+### 31. RELATÓRIOS - Comissões gerais
+GET {{baseUrl}}/relatorios/comissoes
+Authorization: Bearer {{token}}
+
+### 32. RELATÓRIOS - Comissões por vendedor
+GET {{baseUrl}}/relatorios/comissoes?vendedorId=ID_DO_VENDEDOR
+Authorization: Bearer {{token}}
+
+### 33. RELATÓRIOS - Comissões por período
+GET {{baseUrl}}/relatorios/comissoes?dataInicio=2025-10-01&dataFim=2025-10-31
+Authorization: Bearer {{token}}
+
+### 34. RELATÓRIOS - Dashboard
+GET {{baseUrl}}/relatorios/dashboard
+Authorization: Bearer {{token}}
