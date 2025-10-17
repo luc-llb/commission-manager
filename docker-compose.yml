@@ -40,9 +40,6 @@ services:
       - mysql
     networks:
       - commission-network
-    volumes:
-      - ./src:/app/src
-      - /app/node_modules
 
 volumes:
   mysql_data:
